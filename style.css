@@ -272,20 +272,20 @@ li {
         transition: color 650ms;
     }
 
-.fa-facebook-square:hover {
-    color: #4257b2;
-}
-
-.fa-twitter-square:hover {
-    color: #38a1f3;
-}
-
 .fa-linkedin:hover {
     color: #0077b5;
 }
-
-.fa-git-square:hover {
+.fa-angellist:hover {
     color: #f1502f;
+}
+.fa-git:hover {
+    color: #696969;
+}
+.fa-gitlab:hover {
+    color: #FF8C00;
+}
+.fa-slack:hover {
+    color: 	#FF00FF;
 }
 /*End About*/
 
