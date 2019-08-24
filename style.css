@@ -446,7 +446,7 @@ li {
 .copyright {
     width: 100%;
     text-align: left;
-    background-color: #01144a;
+    background-color: rgba(0, 0, 0, 0.5) ;
     padding: 2rem 0;
     position: relative;
 }
@@ -497,7 +497,7 @@ li {
     body {
         width: 100%;
         height: 100%;
-        background-color: #3d9aff;
+        background-color: #01144a;
         background-size: cover;
     }
 
