@@ -446,7 +446,7 @@ li {
 .copyright {
     width: 100%;
     text-align: left;
-    background-color: rgba(0, 0, 0, 0.5) ;
+    background-color: #01144a;
     padding: 2rem 0;
     position: relative;
 }
