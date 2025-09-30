@@ -4,189 +4,880 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie-edge" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+    <title>Sifiso Mazibuko - Full Stack Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- nanogallery2 -->
-    <link href="https://unpkg.com/nanogallery2@2.4.2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="https://unpkg.com/nanogallery2@2.4.2/dist/jquery.nanogallery2.min.js"></script>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --glow-color: rgba(102, 126, 234, 0.4);
+        }
 
-    <link href="style.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="pp.png" />
-    <title>Sifiso Mazibuko</title>
+        html {
+            font-size: 10px;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--dark-bg);
+        }
+
+            .bg-animation::before {
+                content: '';
+                position: absolute;
+                width: 500px;
+                height: 500px;
+                background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+                border-radius: 50%;
+                top: -250px;
+                right: -250px;
+                animation: float 20s infinite ease-in-out;
+            }
+
+            .bg-animation::after {
+                content: '';
+                position: absolute;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(118, 75, 162, 0.15) 0%, transparent 70%);
+                border-radius: 50%;
+                bottom: -200px;
+                left: -200px;
+                animation: float 15s infinite ease-in-out reverse;
+            }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-30px, 30px) scale(0.9);
+            }
+        }
+
+        /* Navigation */
+        .menu-toggler {
+            position: fixed;
+            top: 3rem;
+            right: 3rem;
+            width: 5rem;
+            height: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            z-index: 1500;
+            transition: transform 0.3s ease;
+        }
+
+            .menu-toggler:hover {
+                transform: scale(1.1);
+            }
+
+            .menu-toggler.open {
+                transform: rotate(-45deg);
+            }
+
+        .bar {
+            background: var(--primary-gradient);
+            width: 100%;
+            height: 4px;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 2px 10px var(--glow-color);
+        }
+
+            .bar.half {
+                width: 50%;
+            }
+
+            .bar.start {
+                transform-origin: right;
+            }
+
+        .open .bar.start {
+            transform: rotate(-450deg) translateX(0.8rem);
+        }
+
+        .bar.end {
+            align-self: flex-end;
+            transform-origin: left;
+        }
+
+        .open .bar.end {
+            transform: rotate(-450deg) translateX(-0.8rem);
+        }
+
+        .top-nav {
+            position: fixed;
+            top: -100vh;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom-right-radius: 50%;
+            border-bottom-left-radius: 50%;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .top-nav.open {
+                top: 0;
+                border-radius: 0;
+            }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .nav-link {
+            font-size: 4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            position: relative;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+            .nav-link::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 3px;
+                background: var(--primary-gradient);
+                transform: translateX(-50%);
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::before {
+                width: 100%;
+            }
+
+            .nav-link:hover {
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transform: translateY(-5px);
+            }
+
+        /* Header/Hero Section */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-text {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+            .title-text h1 {
+                font-size: clamp(5rem, 10vw, 12rem);
+                font-weight: 800;
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 2rem;
+                letter-spacing: -2px;
+                animation: glow 3s ease-in-out infinite;
+            }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px var(--glow-color));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 40px var(--glow-color));
+            }
+        }
+
+        .title-text h2 {
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 10rem 0;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 8rem;
+        }
+
+            .section-heading h1 {
+                font-size: clamp(3.5rem, 6vw, 6rem);
+                font-weight: 700;
+                position: relative;
+                display: inline-block;
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+                .section-heading h1::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -1.5rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 100px;
+                    height: 4px;
+                    background: var(--accent-gradient);
+                    border-radius: 2px;
+                }
+
+        /* About Section */
+        .about .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+            .profile-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            background: var(--primary-gradient);
+            padding: 5px;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 0 20px rgba(102, 126, 234, 0);
+            }
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .about-details {
+            animation: fadeIn 1s ease 0.5s backwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .about-details p {
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .social-media {
+            display: flex;
+            gap: 2rem;
+            justify-content: flex-start;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .social-link:hover {
+                transform: translateY(-5px) rotate(360deg);
+                box-shadow: 0 10px 30px var(--glow-color);
+            }
+
+            .social-link.linkedin:hover {
+                background: #0077b5;
+                border-color: #0077b5;
+            }
+
+            .social-link.angellist:hover {
+                background: #f1502f;
+                border-color: #f1502f;
+            }
+
+            .social-link.github:hover {
+                background: #333;
+                border-color: #333;
+            }
+
+            .social-link.gitlab:hover {
+                background: #fc6d26;
+                border-color: #fc6d26;
+            }
+
+            .social-link.slack:hover {
+                background: #4a154b;
+                border-color: #4a154b;
+            }
+
+        /* Skills Section */
+        .my-skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+        }
+
+        .skill {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .skill::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: var(--primary-gradient);
+                opacity: 0.1;
+                transition: left 0.5s ease;
+            }
+
+            .skill:hover::before {
+                left: 100%;
+            }
+
+            .skill:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+                border-color: rgba(102, 126, 234, 0.5);
+            }
+
+        .icon-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .skill:hover .icon-container {
+            transform: rotate(225deg);
+        }
+
+        .icon-container i {
+            font-size: 4rem;
+            color: white;
+            transform: rotate(-45deg);
+        }
+
+        .skill h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .skill p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+        }
+
+        /* Portfolio Section */
+        .portfolio-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 4rem;
+            margin-bottom: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+            .portfolio-item:hover {
+                transform: translateX(10px);
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            }
+
+            .portfolio-item:nth-child(even) {
+                direction: rtl;
+            }
+
+                .portfolio-item:nth-child(even) > * {
+                    direction: ltr;
+                }
+
+        .portfolio-description h6 {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-description h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .portfolio-description p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .portfolio-img video {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 4px;
+                height: 100%;
+                background: var(--primary-gradient);
+                border-radius: 2px;
+            }
+
+        .timeline-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            width: calc(50% - 4rem);
+            transition: all 0.3s ease;
+        }
+
+            .timeline-item:hover {
+                transform: scale(1.05);
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            }
+
+            .timeline-item:nth-child(odd) {
+                margin-left: auto;
+            }
+
+            .timeline-item::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                width: 20px;
+                height: 20px;
+                background: var(--accent-gradient);
+                border-radius: 50%;
+                transform: translateY(-50%);
+                box-shadow: 0 0 20px var(--glow-color);
+            }
+
+            .timeline-item:nth-child(odd)::before {
+                left: -60px;
+            }
+
+            .timeline-item:nth-child(even)::before {
+                right: -60px;
+            }
+
+        .timeline-date {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .timeline-item h1 {
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .timeline-item p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .up-btn {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px var(--glow-color);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        .up-btn:hover {
+            transform: translateX(-50%) translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 40px var(--glow-color);
+        }
+
+        .up-btn i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        footer p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 968px) {
+            .about .container {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .portfolio-item {
+                grid-template-columns: 1fr;
+            }
+
+                .portfolio-item:nth-child(even) {
+                    direction: ltr;
+                }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 6rem);
+                margin-left: 6rem !important;
+            }
+
+                .timeline-item::before {
+                    left: -43px !important;
+                }
+
+            .nav-link {
+                font-size: 3rem;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .title-text h1 {
+                font-size: 6rem;
+            }
+
+            .section-heading h1 {
+                font-size: 3.5rem;
+            }
+
+            .menu-toggler {
+                top: 2rem;
+                right: 2rem;
+            }
+
+            .my-skills {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: #01144a;">
-    <header>
-        <div class="menu-toggler">
-            <div class="bar half start"></div>
-            <div class="bar"></div>
-            <div class="bar half end"></div>
-        </div>
-        <nav class="top-nav">
-            <ul class="nav-list">
-                <li>
-                    <a href="index.html" class="nav-link">Home</a>
-                </li>
-                <li>
-                    <a href="#about" class="nav-link">About Me</a>
-                </li>
-                <li>
-                    <a href="#services" class="nav-link">Skills</a>
-                </li>
-                <li>
-                    <a href="#portfolio" class="nav-link">Projects</a>
-                </li>
-                <li>
-                    <a href="#experience" class="nav-link">Experience</a>
-                </li>
-            </ul>
-        </nav>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="menu-toggler">
+        <div class="bar half start"></div>
+        <div class="bar"></div>
+        <div class="bar half end"></div>
+    </div>
+
+    <nav class="top-nav">
+        <ul class="nav-list">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#portfolio" class="nav-link">Projects</a></li>
+            <li><a href="#experience" class="nav-link">Experience</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
         <div class="title-text">
             <h1>Sifiso Mazibuko</h1>
-            <h2 style="font-style:italic;font-size:20px;">&#60; Intermediate Software Developer &#47;&#62;</h2>
+            <h2>&lt; Full Stack Developer /&gt;</h2>
         </div>
     </header>
 
     <section class="about" id="about">
-        <div class="container" style="text-align:center;">
-            <div class="profile-img" data-aos="fade-right" data-aos-delay="300">
-                <div class="LI-profile-badge" data-version="v1" data-size="medium" data-locale="en_US" data-type="vertical" data-theme="light" data-vanity="sifiso-m-24929263">
-                    <a class="LI-simple-link" href='https://za.linkedin.com/in/sifiso-m-24929263?trk=profile-badge'>Sifiso M.</a>
+        <div class="container">
+            <div class="profile-card">
+                <div class="profile-img">
+                    <img src="https://via.placeholder.com/200" alt="Sifiso Mazibuko">
+                </div>
+                <div class="social-media">
+                    <a href="https://www.linkedin.com/in/sifiso-m-24929263/" target="_blank" class="social-link linkedin">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://angel.co/sifiso-mazibuko" target="_blank" class="social-link angellist">
+                        <i class="fab fa-angellist"></i>
+                    </a>
+                    <a href="https://github.com/sifisomazibuko" target="_blank" class="social-link github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://gitlab.com/SifisoMazibuko" target="_blank" class="social-link gitlab">
+                        <i class="fab fa-gitlab"></i>
+                    </a>
                 </div>
             </div>
 
-            <div class="about-details" data-aos="fade-left" data-aos-delay="600">
+            <div class="about-details">
                 <div class="section-heading">
                     <h1>About Me</h1>
                 </div>
-                <p style="font-style:oblique;font-size:14px;">
-                    Full Stack Developer with several years’ of experience in Back-end &#38; Front-end Development
-                    with expertise in PWA & Databases. I have a strong sense of discipline,
+                <p>
+                    Full Stack Developer with several years of experience in back-end and front-end development
+                    with expertise in PWA and databases. I have a strong sense of discipline,
                     communication skills and work ethic making me an excellent team player with the creativity
                     to envision the big picture and meticulousness to handle the small details. I am quick to grasp
-                    new ideas, develop innovative and creative Software solutions to problems.
+                    new ideas and develop innovative and creative software solutions to problems.
                 </p>
-                <div class="social-media">
-                    <ul class="nav-list">
-                        <li>
-                            <a href="https://angel.co/sifiso-mazibuko" target="_blank" class="icon-link">
-                                <i class="fab fa-angellist"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/sifiso-m-24929263/" target="_blank" class="icon-link">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/sifisomazibuko" target="_blank" class="icon-link">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://gitlab.com/SifisoMazibuko" target="_blank" class="icon-link">
-                                <i class="fab fa-gitlab"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://alc4-mws.slack.com/sifisomazibuko" target="_blank" class="icon-link">
-                                <i class="fab fa-slack"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </section>
 
-    <section class="services" id="services">
+    <section class="services" id="skills">
         <div class="container">
             <div class="section-heading">
-                <h1>Skills &#38; Knowledge</h1>
+                <h1>Skills & Expertise</h1>
             </div>
             <div class="my-skills">
-                <div class="skill" data-aos="fade-in" data-aos-delay="300">
+                <div class="skill">
                     <div class="icon-container">
-                        <img src="frontend.png" />
+                        <i class="fas fa-code"></i>
                     </div>
                     <h1>Front-End Development</h1>
-                    <p>
-                        HTML5, CSS3, Bootstrap, AngularJS, ES6/ES2015, JSON, RESTful API
-                    </p>
+                    <p>HTML5, CSS3, Bootstrap, AngularJS, ES6/ES2015, JSON, RESTful API</p>
                 </div>
-                <div class="skill" data-aos="fade-in" data-aos-delay="600">
+                <div class="skill">
                     <div class="icon-container">
-                        <img src="database.png" />
+                        <i class="fas fa-database"></i>
                     </div>
                     <h1>Databases</h1>
-                    <p>
-                        SQL Server, EF, CRUD, T-SQL, SSRS
-                    </p>
+                    <p>SQL Server, Entity Framework, CRUD, T-SQL, SSRS</p>
                 </div>
-                <div class="skill" data-aos="fade-in" data-aos-delay="900">
+                <div class="skill">
                     <div class="icon-container">
-                        <img src="backend.png" />
+                        <i class="fas fa-server"></i>
                     </div>
                     <h1>Back-End Development</h1>
-                    <p>
-                        C#, VB.NET, ASP.NET MVC, ASP .NET Web API, .NET Core 2, .NET Framework 4.x, ADO.NET, Node.js, NuGet
-                    </p>
+                    <p>C#, VB.NET, ASP.NET MVC, ASP.NET Web API, .NET Core 2, .NET Framework 4.x, ADO.NET, Node.js</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="services" id="portfolio">
+    <section class="portfolio" id="portfolio">
         <div class="container">
             <div class="section-heading">
-                <h1>Project Summary</h1>
+                <h1>Featured Projects</h1>
             </div>
 
             <div class="portfolio-item">
-                <div class="portfolio-description has-margin-right" data-aos="fade-right" data-aos-delay="900">
-                    <h6>Company</h6>
+                <div class="portfolio-description">
+                    <h6>Company Project</h6>
                     <h1>AftasCool</h1>
                     <p>
                         AftasCool provides an activities platform which makes learning fun
-                        and correlates learning to REAL life. This platform provides a journey
+                        and correlates learning to real life. This platform provides a journey
                         of learning, information, creating, chatting, friendship, growth, rewards,
-                        career, with tutors, teachers and classmates. AftasCool intends to create a
-                        Microsoft ASP.NET web platform to Capture Learner detail, Categorised Questionnaire (assessment)
-                        information and Credit scoring system persisted in a centralised repository (Database).
+                        and career development with tutors, teachers and classmates.
                     </p>
                 </div>
-                <div id="nanogallery2" data-nanogallery2 class="portfolio-img" data-aos="fade-left" data-aos-delay="1200" style="margin: 0 auto;">
-                    <video controls="controls" width="300" height="300" title="Adding New Behaviour Example"
-                           draggable="true" style="border:2px #01144a;border-radius:1em;">
+                <div class="portfolio-img">
+                    <video controls width="100%">
                         <source src="Newbehaviour.mp4" type="video/mp4" />
-                        <source src="Newbehaviour.webm" type="video/webm" />
-                        <source src="Newbehaviour.ogg" type="video/ogg" />
+                        Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
 
             <div class="portfolio-item">
-                <div id="nanogallery2" data-nanogallery2 class="portfolio-img has-margin-right" data-aos="fade-right" data-aos-delay="1500" style="margin: 0 auto;">
-                    <video controls="controls" width="300" height="300" title="MrDelivery"
-                           draggable="true" style="border:2px #01144a;border-radius:1em;">
-                        <source src="MrDFood.webm" type="video/webm" />
-                        <source src="MrDFood.mp4" type="video/mp4" />
-                        <source src="MrDFood.ogg" type="video/ogg" />
-                    </video>
-                </div>
-                <div class="portfolio-description " data-aos="fade-left" data-aos-delay="1800" style="margin:2em">
-                    <h6>Personal</h6>
+                <div class="portfolio-description">
+                    <h6>Personal Project</h6>
                     <h1>MrDelivery</h1>
                     <p>
                         MrDelivery provides a platform that brings flexibility to its customers,
                         who enjoy the service of ordering food online from any restaurant listed
-                        within the system and receive their order wherever they are. MrDelivery intends to
-                        create a Microsoft ASP.Net web platform to search for any restaurant within the area,
-                        bring out a list of menu to choose from and option to select in the essence of making an order.
+                        within the system and receive their order wherever they are.
                     </p>
+                </div>
+                <div class="portfolio-img">
+                    <video controls width="100%">
+                        <source src="MrDFood.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -197,47 +888,123 @@
             <div class="section-heading">
                 <h1>Work Experience</h1>
             </div>
-            <div class="timeline" data-aos="fade-down" data-aos-delay="300">
-                <ul>
-                    <li class="date" data-date="2020 - 2022">
-                        <h1>ConvergEX Distribution Management</h1>
-                        <p>&#8226; Design, develop, monitor and maintain in-house developed and 3rd party applications.</p>
-                        <p>&#8226; Code, implement and test changes in C#/VB.NET, SQL Server, Javascript, XML & JSON.</p>
-                        <p>&#8226; Drafting technical documentation, change logs, user manuals, and training guides</p>
-                    </li>
-                    <li class="date" data-date="2017 - 2018">
-                        <h1>Reverside Software Solutions</h1>
-                        <p>&#8226; Development, testing and debugging application according to the functional requirements.</p>
-                        <p>&#8226; Analyze, diagnose and resolve errors related to the software application.</p>
-                        <p>&#8226; Working closely with other developers and end users to ensure technical compatibility.</p>
-                        <p>&#8226; Meetup on a daily for updates using the agile methodology.</p>
-                    </li>
-                    <li class="date" data-date="2017 - 2017">
-                        <h1>Absa Barclays Africa Group Limited</h1>
-                        <p>&#8226; Consulting through Reverside, contributing and participating in new product features.</p>
-                        <p>&#8226; Writing clean, efficient and maintainable code.</p>
-                    </li>
-                    <li class="date" data-date="2015 - 2016">
-                        <h1>Thinkroom | Britehouse Consulting</h1>
-                        <p>&#8226; Developing application for the Web using C# language and Microsoft .NET framework. </p>
-                        <p>&#8226; Working closely with Team and designing solutions according to the Clients requirements. </p>
-                        <p>&#8226; Creating Unit tests and developing both in front-end and back-end according task given. </p>
-                        <p>&#8226; DB management and migration from C# to SQL database using code first (EF). </p>
-                        <p>&#8226; Performing app system code review to ensure technical quality and service to clients or users.</p>
-                    </li>
-                </ul>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2020 - 2022</div>
+                    <h1>ConvergEX Distribution Management</h1>
+                    <p>• Design, develop, monitor and maintain in-house developed and 3rd party applications.</p>
+                    <p>• Code, implement and test changes in C#/VB.NET, SQL Server, Javascript, XML & JSON.</p>
+                    <p>• Drafting technical documentation, change logs, user manuals, and training guides.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2017 - 2018</div>
+                    <h1>Reverside Software Solutions</h1>
+                    <p>• Development, testing and debugging application according to the functional requirements.</p>
+                    <p>• Analyze, diagnose and resolve errors related to the software application.</p>
+                    <p>• Working closely with other developers and end users to ensure technical compatibility.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2017</div>
+                    <h1>Absa Barclays Africa Group</h1>
+                    <p>• Consulting through Reverside, contributing and participating in new product features.</p>
+                    <p>• Writing clean, efficient and maintainable code.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2015 - 2016</div>
+                    <h1>Thinkroom | Britehouse Consulting</h1>
+                    <p>• Developing application for the Web using C# language and Microsoft .NET framework.</p>
+                    <p>• Working closely with Team and designing solutions according to the Clients requirements.</p>
+                    <p>• Creating Unit tests and developing both in front-end and back-end according task given.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer class="copyright" style="background-color: rgba(0,0,0,0.5);">
-        <div class="up" id="up">
+    <footer>
+        <div class="up-btn">
             <i class="fas fa-chevron-up"></i>
         </div>
-        <p style="margin:2em">&copy; <span id="current-year"></span> - Created By Sifiso Mazibuko </p>
+        <p>&copy; <span id="current-year"></span> Sifiso Mazibuko. All rights reserved.</p>
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="profile.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Menu toggle
+            $('.menu-toggler').on('click', function () {
+                $(this).toggleClass('open');
+                $('.top-nav').toggleClass('open');
+            });
+
+            // Close menu on link click
+            $('.nav-link').on('click', function () {
+                $('.menu-toggler').removeClass('open');
+                $('.top-nav').removeClass('open');
+            });
+
+            // Smooth scroll
+            $('a[href*="#"]').on('click', function (e) {
+                e.preventDefault();
+                const target = $(this).attr('href');
+                if ($(target).length) {
+                    $('html, body').animate({
+                        scrollTop: $(target).offset().top - 50
+                    }, 800);
+                }
+            });
+
+            // Scroll to top
+            $('.up-btn').on('click', function () {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 800);
+            });
+
+            // Current year
+            $('#current-year').text(new Date().getFullYear());
+
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Animate elements on scroll
+            $('.skill, .portfolio-item, .timeline-item').each(function () {
+                $(this).css({
+                    opacity: '0',
+                    transform: 'translateY(50px)',
+                    transition: 'all 0.6s ease'
+                });
+                observer.observe(this);
+            });
+
+            // Parallax effect for background
+            $(window).on('scroll', function () {
+                const scrolled = $(this).scrollTop();
+                $('.bg-animation').css('transform', 'translateY(' + (scrolled * 0.3) + 'px)');
+            });
+
+            // Hide/show up button
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() > 500) {
+                    $('.up-btn').fadeIn();
+                } else {
+                    $('.up-btn').fadeOut();
+                }
+            });
+
+            $('.up-btn').hide();
+        });
+    </script>
 </body>
 </html>
