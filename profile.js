@@ -26,4 +26,8 @@
         duration: 1800,
         once: true
     });
+
+    $(document).ready(function () {
+        $('#current-year').text(new Date().getFullYear());
+    });
 }); 
