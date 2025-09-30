@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="images\IMG_1760.JPG" />
     <Content Include="index.html" />
     <Content Include="profile.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
