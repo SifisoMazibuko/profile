@@ -451,7 +451,9 @@ li {
     padding: 2rem 0;
     position: relative;
 }
-
+.copyright p {
+    font-size: 1.4rem;
+}
 .up {
     position: absolute;
     width: 5rem;
